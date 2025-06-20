@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Companion Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style for the main slide-up panel */
+        #companion-container.hidden {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        #companion-container {
+            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        }
+        #companion-backdrop.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #companion-backdrop {
+            transition: opacity 0.4s ease-in-out;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <!-- Main Page Content - Replicated from Screenshot -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header/Nav -->
+        <header class="flex justify-between items-center py-4 border-b border-gray-200">
+            <div class="flex items-center space-x-8">
+                <h1 class="text-2xl font-bold text-gray-800">FIT COOK</h1>
+                <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-600">
+                    <a href="#" class="hover:text-gray-900">Recipes</a>
+                    <a href="#" class="hover:text-gray-900">Shop</a>
+                    <a href="#" class="hover:text-gray-900">Meal Plans</a>
+                    <a href="#" class="hover:text-gray-900">Blog</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                 <button class="text-gray-500 hover:text-gray-800"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
+                 <button class="text-gray-500 hover:text-gray-800"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg></button>
+                 <button class="hidden sm:block bg-orange-500 text-white font-bold py-2 px-4 rounded-lg text-sm hover:bg-orange-600 transition">Order Meals</button>
+            </div>
+        </header>
+
+        <!-- Main Recipe Content -->
+        <main class="py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+                <!-- Left Column (Image & Title) -->
+                <div class="lg:col-span-2">
+                    <p class="text-sm text-gray-500">
+                        <a href="#" class="hover:underline">Recipes</a> &gt; <span>Slow Cooker Pulled Lamb Recipe</span>
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-1 rounded-full">Beef</span>
+                        <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-1 rounded-full">Low Carb / Keto</span>
+                        <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-1 rounded-full">Meal Prep</span>
+                        <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-1 rounded-full">Meat</span>
+                    </div>
+                    <h2 class="mt-4 text-4xl md:text-5xl font-bold tracking-tight text-gray-900">Slow Cooker Pulled Lamb Recipe</h2>
+                    <img src="https://cdn.prod.website-files.com/6730ad2057adfeb124b1e435/6854ba47eadfc39bc6493bab_Pulled%20pork%20image%20.webp" alt="Slow Cooker Pulled Lamb" class="mt-6 w-full h-auto object-cover rounded-lg shadow-md">
+                </div>
+
+                <!-- Right Column (Details & Companion Button) -->
+                <div>
+                    <div class="flex items-center space-x-3">
+                        <img src="https://placehold.co/40x40/c084fc/ffffff?text=KC" class="w-10 h-10 rounded-full" alt="Author Kevin Curry">
+                        <div>
+                            <p class="text-sm text-gray-500">Author:</p>
+                            <p class="font-semibold text-gray-800">Kevin Curry</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-slate-50 p-6 rounded-lg border border-gray-200">
+                        <h3 class="font-bold text-lg text-gray-800">Details</h3>
+                        <div class="mt-4 flex justify-between text-center text-sm">
+                            <div><p class="font-semibold">Prep</p><p class="text-gray-600">10min</p></div>
+                            <div><p class="font-semibold">Cook</p><p class="text-gray-600">3h</p></div>
+                            <div><p class="font-semibold">Total</p><p class="text-gray-600">3h 10min</p></div>
+                        </div>
+
+                        <h4 class="font-semibold mt-6 text-gray-800">Nutrition per serving</h4>
+                        <ul class="mt-2 space-y-1 text-sm text-gray-600">
+                             <li class="flex justify-between"><span>Calories</span><span class="font-medium">170cal</span></li>
+                             <li class="flex justify-between"><span>Protein</span><span class="font-medium">24g</span></li>
+                             <li class="flex justify-between"><span>Fats</span><span class="font-medium">6g</span></li>
+                             <li class="flex justify-between"><span>Carbs</span><span class="font-medium">3g</span></li>
+                        </ul>
+
+                        <!-- THE BUTTON to open our companion -->
+                        <button id="open-companion-btn" class="mt-8 w-full bg-violet-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-violet-700 transition">
+                           Kitchen Companion
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Backdrop for the modal -->
+    <div id="companion-backdrop" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Main Slide-up Container for the 4-panel dashboard -->
+    <div id="companion-container" class="fixed bottom-0 left-0 right-0 z-50 bg-white shadow-2xl rounded-t-2xl hidden" style="height: 85vh;">
+        <div class="h-full flex flex-col">
+            <!-- Close Button -->
+            <div class="absolute top-4 right-4 z-10">
+                <button id="close-companion-btn" class="bg-gray-200 text-gray-600 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-300 transition">
+                    &times;
+                </button>
+            </div>
+
+            <!-- 4-Column Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 h-full">
+                
+                <!-- 1. Recipes Column -->
+                <div class="flex flex-col border-r border-gray-200">
+                    <div class="p-4 border-b border-gray-200"><h2 class="text-lg font-bold text-gray-800">Recipes</h2><input id="recipe-search-input" type="search" placeholder="Search recipes..." class="w-full mt-2 p-2 border border-gray-300 rounded-md"></div>
+                    <ul id="recipe-list" class="p-4 space-y-3 overflow-y-auto custom-scrollbar flex-grow"></ul>
+                </div>
+
+                <!-- 2. Ingredients Column -->
+                <div class="flex flex-col border-r border-gray-200">
+                    <div class="p-4 border-b border-gray-200"><h2 class="text-lg font-bold text-gray-800">Ingredients</h2><p id="ingredient-recipe-title" class="text-sm text-gray-500">Select a recipe to start</p></div>
+                    <ul id="ingredient-list" class="p-4 space-y-3 overflow-y-auto custom-scrollbar flex-grow"></ul>
+                </div>
+
+                <!-- 3. Grocery List Column -->
+                <div class="flex flex-col border-r border-gray-200">
+                    <div class="flex flex-col flex-grow">
+                        <div class="p-4 border-b border-gray-200">
+                            <h2 class="text-lg font-bold text-gray-800">Grocery List</h2>
+                            <p id="grocery-list-status" class="text-sm text-gray-500">Your list is empty</p>
+                        </div>
+                        <ul id="grocery-list" class="p-4 space-y-3 overflow-y-auto custom-scrollbar flex-grow">
+                            <!-- Items added to the grocery list appear here -->
+                        </ul>
+                        <!-- Amazon Fresh Button -->
+                        <div class="p-4 mt-auto border-t border-gray-200">
+                             <button class="w-full bg-[#00A854] text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-[#009448] transition-colors">
+                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M21.521 13.342a1.002 1.002 0 0 0-.91-.673H10.45l5.242-9.133a1 1 0 0 0-1.732-1l-6.928 12a1 1 0 0 0 .91 1.674h10.158l-5.242 9.133a1 1 0 0 0 1.732 1l6.929-12a1.002 1.002 0 0 0 .002-.801Z" fill="#fff"/><path d="m21.998 12.002-.002.003-7.23 12.523a.999.999 0 0 1-1.732-1l5.45-9.522H8.324a1 1 0 0 1-.91-1.674l7.23-12.523a.999.999 0 0 1 1.732 1l-5.45 9.522h10.16a1 1 0 0 1 .91.673c.12.355.03.748-.226.999Z" fill="#0F722D"/></svg>
+                                <span>Order from Amazon Fresh</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Chat Column -->
+                <div class="flex flex-col">
+                     <div class="flex justify-between items-center p-4 border-b border-gray-200 flex-shrink-0"><h3 class="font-bold text-gray-800">Chat with Kevin</h3><img src="https://placehold.co/32x32/c084fc/ffffff?text=K" alt="Kevin AI Avatar" class="w-8 h-8 rounded-full"></div>
+                    <div class="bg-slate-50 flex-grow p-6 space-y-4 overflow-y-auto custom-scrollbar"><div class="flex justify-end"><div class="bg-violet-600 text-white p-3 rounded-t-2xl rounded-bl-2xl max-w-xs"><p>How can I make sure the ingredients are organic?</p></div></div><div class="flex justify-start"><div class="bg-gray-200 text-gray-800 p-3 rounded-t-2xl rounded-br-2xl max-w-xs"><p>For ground beef, look for a 'USDA Organic' seal. For produce, choose items labeled 'Organic'.</p></div></div></div>
+                    <div class="p-4 border-t border-gray-200 bg-slate-50 flex-shrink-0"><div class="relative"><input type="text" placeholder="Ask me anything..." class="w-full bg-white border-gray-300 rounded-full py-2 pl-10 pr-12 focus:ring-violet-500 focus:border-violet-500"><button class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line></svg></button><button class="absolute right-2 top-1/2 -translate-y-1/2 bg-violet-600 text-white w-7 h-7 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- STATE MANAGEMENT ---
+            let allRecipes = [];
+            let selectedRecipe = null;
+            let groceryList = [];
+
+            // --- DOM ELEMENTS ---
+            const companionContainer = document.getElementById('companion-container');
+            const backdrop = document.getElementById('companion-backdrop');
+            const openBtn = document.getElementById('open-companion-btn');
+            const closeBtn = document.getElementById('close-companion-btn');
+            const recipeListEl = document.getElementById('recipe-list');
+            const recipeSearchInput = document.getElementById('recipe-search-input');
+            const ingredientListEl = document.getElementById('ingredient-list');
+            const ingredientRecipeTitleEl = document.getElementById('ingredient-recipe-title');
+            const groceryListEl = document.getElementById('grocery-list');
+            const groceryListStatusEl = document.getElementById('grocery-list-status');
+
+            // --- DATA INITIALIZATION ---
+            function setupInitialData() {
+                allRecipes = [
+                    {
+                        id: 1,
+                        name: 'Coconut Braised Chickpeas',
+                        image: 'https://cdn.prod.website-files.com/6730ad2057adfeb124b1e435/67e9977bebff3435ebad42fc_coconut-braised-chickpeas-with-sweet-potatoes-and-greens.png',
+                        ingredients: [
+                            { text: '1 can coconut milk' }, { text: '1 can chickpeas, rinsed' },
+                            { text: '1 large sweet potato, diced' }, { text: '1 bunch kale, chopped' },
+                            { text: '1 onion, chopped' }, { text: '2 cloves garlic, minced', inPantry: true },
+                        ]
+                    },
+                    {
+                        id: 2,
+                        name: 'Five Spice Powder',
+                        image: 'https://cdn.prod.website-files.com/6730ad2057adfeb124b1e435/67e9977e7e00d84a737d17f0_five-spice-powder.png',
+                        ingredients: [
+                            { text: '2 tsp Sichuan peppercorns' }, { text: '5 star anise' },
+                            { text: '1.5 tsp fennel seeds' }, { text: '1/4 tsp cloves' },
+                            { text: '1 cinnamon stick' },
+                        ]
+                    },
+                    {
+                        id: 3,
+                        name: 'Okonomiyaki Pancakes',
+                        image: 'https://cdn.prod.website-files.com/6730ad2057adfeb124b1e435/67e99779c7b158a3a3a038c2_okonomiyaki-as-you-like-it-pancakes-with-bonito-flakes.png',
+                        ingredients: [
+                            { text: '1 cup all-purpose flour' }, { text: '1/4 cup cornstarch' },
+                            { text: '1 tsp baking powder' }, { text: '4 large eggs' },
+                            { text: '1/2 head cabbage, shredded' }, { text: '1/2 cup chopped scallions' },
+                            { text: 'Okonomiyaki sauce' }, { text: 'Kewpie mayonnaise' },
+                            { text: 'Bonito flakes' },
+                        ]
+                    },
+                     {
+                        id: 4,
+                        name: 'Pulled Lamb',
+                        image: 'https://cdn.prod.website-files.com/6730ad2057adfeb124b1e435/6854ba47eadfc39bc6493bab_Pulled%20pork%20image%20.webp',
+                        ingredients: [
+                            { text: '4 lb lamb shoulder' }, { text: '2 onions, sliced' },
+                            { text: '6 cloves garlic', inPantry: true }, { text: '1 cup beef broth' },
+                            { text: '2 tbsp paprika' }, { text: '1 tbsp cumin' },
+                        ]
+                    }
+                ];
+            }
+
+            // --- RENDER FUNCTIONS ---
+
+            function renderRecipes(filter = '') {
+                recipeListEl.innerHTML = '';
+                const filteredRecipes = allRecipes.filter(r => r.name.toLowerCase().includes(filter.toLowerCase()));
+                if (filteredRecipes.length === 0) {
+                    recipeListEl.innerHTML = `<li class="text-gray-500">No recipes found.</li>`; return;
+                }
+                filteredRecipes.forEach(recipe => {
+                    const li = document.createElement('li');
+                    li.className = `p-2 rounded-md cursor-pointer hover:bg-gray-100 flex items-center space-x-4 ${selectedRecipe?.id === recipe.id ? 'bg-violet-100' : ''}`;
+                    li.dataset.recipeId = recipe.id;
+                    li.innerHTML = `<img src="${recipe.image}" alt="${recipe.name}" onerror="this.onerror=null;this.src='https://placehold.co/64x40/d1d5db/374151?text=Error';" class="w-16 h-10 object-cover rounded-md flex-shrink-0"><span class="font-semibold text-gray-700">${recipe.name}</span>`;
+                    recipeListEl.appendChild(li);
+                });
+            }
+
+            function renderIngredients() {
+                ingredientListEl.innerHTML = '';
+                if (!selectedRecipe) {
+                    ingredientRecipeTitleEl.textContent = 'Select a recipe to start';
+                    ingredientListEl.innerHTML = `<li class="text-gray-500">No recipe selected.</li>`; return;
+                }
+                ingredientRecipeTitleEl.textContent = `For ${selectedRecipe.name}`;
+                selectedRecipe.ingredients.forEach(ing => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center justify-between';
+                    const pantryLabel = ing.inPantry ? `<span class="bg-green-100 text-green-800 text-xs font-semibold ml-2 px-2 py-0.5 rounded-full">In pantry</span>` : '';
+                    li.innerHTML = `<div><span>${ing.text}</span>${pantryLabel}</div><button data-ingredient-text="${ing.text}" class="add-to-grocery-btn text-violet-500 hover:text-violet-700 text-xl font-bold">+</button>`;
+                    ingredientListEl.appendChild(li);
+                });
+            }
+
+            function renderGroceryList() {
+                groceryListEl.innerHTML = '';
+                if (groceryList.length === 0) {
+                    groceryListStatusEl.textContent = 'Your list is empty'; return;
+                }
+                groceryListStatusEl.textContent = `${groceryList.length} item(s)`;
+                groceryList.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center justify-between bg-gray-100 p-2 rounded-md';
+                    li.innerHTML = `<span>${item}</span><button data-item-index="${index}" class="remove-from-grocery-btn text-red-500 hover:text-red-700 font-bold">&times;</button>`;
+                    groceryListEl.appendChild(li);
+                });
+            }
+
+            // --- EVENT HANDLERS ---
+            function handleRecipeSearch(e) { renderRecipes(e.target.value); }
+            function handleRecipeSelect(e) {
+                const li = e.target.closest('li[data-recipe-id]');
+                if (!li) return;
+                const recipeId = parseInt(li.dataset.recipeId);
+                selectedRecipe = allRecipes.find(r => r.id === recipeId);
+                renderRecipes(recipeSearchInput.value);
+                renderIngredients();
+            }
+            function handleAddToGrocery(e) {
+                if (!e.target.classList.contains('add-to-grocery-btn')) return;
+                const text = e.target.dataset.ingredientText;
+                if (text && !groceryList.includes(text)) {
+                    groceryList.push(text);
+                    renderGroceryList();
+                }
+            }
+            function handleRemoveFromGrocery(e) {
+                if (!e.target.classList.contains('remove-from-grocery-btn')) return;
+                const index = parseInt(e.target.dataset.itemIndex);
+                groceryList.splice(index, 1);
+                renderGroceryList();
+            }
+            function openCompanion() {
+                backdrop.classList.remove('hidden');
+                companionContainer.classList.remove('hidden');
+            }
+            function closeCompanion() {
+                backdrop.classList.add('hidden');
+                companionContainer.classList.add('hidden');
+            }
+
+            // --- INITIALIZATION ---
+            function init() {
+                setupInitialData();
+                renderRecipes();
+                renderIngredients();
+                renderGroceryList();
+                openBtn.addEventListener('click', openCompanion);
+                closeBtn.addEventListener('click', closeCompanion);
+                backdrop.addEventListener('click', closeCompanion);
+                recipeSearchInput.addEventListener('input', handleRecipeSearch);
+                recipeListEl.addEventListener('click', handleRecipeSelect);
+                ingredientListEl.addEventListener('click', handleAddToGrocery);
+                groceryListEl.addEventListener('click', handleRemoveFromGrocery);
+            }
+
+            init();
+        });
+    </script>
+</body>
+</html>
+
