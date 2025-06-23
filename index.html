@@ -39,6 +39,36 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+        /* === GEMINI CHANGE START === */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+        }
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            float: left;
+            margin: 0 1px;
+            background-color: #9CA3AF;
+            display: block;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: typing-fade 1s infinite;
+        }
+        .typing-indicator span:nth-of-type(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-of-type(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes typing-fade {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+        /* === GEMINI CHANGE END === */
     </style>
 </head>
 <body class="bg-white">
@@ -171,21 +201,38 @@
                 </div>
 
                 <!-- 4. Chat Column -->
+                <!-- === GEMINI CHANGE START === -->
                 <div class="flex flex-col">
-                     <div class="flex justify-between items-center p-4 border-b border-gray-200 flex-shrink-0"><h3 class="font-bold text-gray-800">Chat with Kevin</h3><img src="https://placehold.co/32x32/c084fc/ffffff?text=K" alt="Kevin AI Avatar" class="w-8 h-8 rounded-full"></div>
-                    <div class="bg-slate-50 flex-grow p-6 space-y-4 overflow-y-auto custom-scrollbar"><div class="flex justify-end"><div class="bg-violet-600 text-white p-3 rounded-t-2xl rounded-bl-2xl max-w-xs"><p>How can I make sure the ingredients are organic?</p></div></div><div class="flex justify-start"><div class="bg-gray-200 text-gray-800 p-3 rounded-t-2xl rounded-br-2xl max-w-xs"><p>For ground beef, look for a 'USDA Organic' seal. For produce, choose items labeled 'Organic'.</p></div></div></div>
-                    <div class="p-4 border-t border-gray-200 bg-slate-50 flex-shrink-0"><div class="relative"><input type="text" placeholder="Ask me anything..." class="w-full bg-white border-gray-300 rounded-full py-2 pl-10 pr-12 focus:ring-violet-500 focus:border-violet-500"><button class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line></svg></button><button class="absolute right-2 top-1/2 -translate-y-1/2 bg-violet-600 text-white w-7 h-7 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button></div></div>
+                     <div class="flex justify-between items-center p-4 border-b border-gray-200 flex-shrink-0">
+                         <h3 class="font-bold text-gray-800">Chat with Kevin</h3>
+                         <img src="https://placehold.co/32x32/c084fc/ffffff?text=K" alt="Kevin AI Avatar" class="w-8 h-8 rounded-full">
+                     </div>
+                     <div id="chat-message-list" class="bg-slate-50 flex-grow p-6 space-y-4 overflow-y-auto custom-scrollbar">
+                         <!-- Initial Message -->
+                         <div class="flex justify-start">
+                            <div class="bg-gray-200 text-gray-800 p-3 rounded-t-2xl rounded-br-2xl max-w-xs">
+                                <p>Hi! I'm Kevin. Ask me to add ingredients to your grocery list or any questions about your recipes.</p>
+                            </div>
+                         </div>
+                     </div>
+                     <div class="p-4 border-t border-gray-200 bg-slate-50 flex-shrink-0">
+                         <div class="relative">
+                             <input type="text" id="chat-input" placeholder="Ask me anything..." class="w-full bg-white border-gray-300 rounded-full py-2 pl-4 pr-12 focus:ring-violet-500 focus:border-violet-500">
+                             <button id="chat-send-btn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-violet-600 text-white w-7 h-7 rounded-full flex items-center justify-center">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                             </button>
+                         </div>
+                     </div>
                 </div>
+                 <!-- === GEMINI CHANGE END === -->
             </div>
         </div>
     </div>
     
-    <!-- === CHANGE START === -->
     <!-- Ingredient Action Pop-up -->
     <div id="ingredient-popup" class="hidden absolute bg-white shadow-xl rounded-lg p-3 z-[60]">
         <button id="add-to-pantry-btn" class="w-full text-left text-sm font-semibold text-violet-600 hover:text-violet-800">Add to Pantry</button>
     </div>
-    <!-- === CHANGE END === -->
 
 
     <script>
@@ -196,9 +243,11 @@
             let groceryList = [];
             let pantryList = []; 
             let currentView = 'grocery'; 
-            // === CHANGE START ===
             let currentIngredientForPopup = null;
-            // === CHANGE END ===
+            // === GEMINI CHANGE START ===
+            let chatHistory = [];
+            // === GEMINI CHANGE END ===
+
 
             // --- DOM ELEMENTS ---
             const companionContainer = document.getElementById('companion-container');
@@ -213,10 +262,13 @@
             const listTitleEl = document.getElementById('list-title'); 
             const listStatusEl = document.getElementById('list-status'); 
             const swapViewBtn = document.getElementById('swap-view-btn'); 
-            // === CHANGE START ===
             const ingredientPopup = document.getElementById('ingredient-popup');
             const addToPantryBtn = document.getElementById('add-to-pantry-btn');
-            // === CHANGE END ===
+            // === GEMINI CHANGE START ===
+            const chatMessageList = document.getElementById('chat-message-list');
+            const chatInput = document.getElementById('chat-input');
+            const chatSendBtn = document.getElementById('chat-send-btn');
+            // === GEMINI CHANGE END ===
 
             // --- DATA INITIALIZATION ---
             function setupInitialData() {
@@ -297,9 +349,6 @@
                     const li = document.createElement('li');
                     li.className = 'flex items-center justify-between';
                     const pantryLabel = ing.inPantry ? `<span class="bg-green-100 text-green-800 text-xs font-semibold ml-2 px-2 py-0.5 rounded-full">In pantry</span>` : '';
-                    
-                    // === CHANGE START ===
-                    // The ingredient text is now wrapped in a span with a data attribute
                     li.innerHTML = `
                         <div>
                             <span class="ingredient-text-clickable cursor-pointer hover:text-violet-600" data-ingredient-text="${ing.text}">${ing.text}</span>
@@ -307,7 +356,6 @@
                         </div>
                         <button data-ingredient-text="${ing.text}" class="add-to-grocery-btn text-violet-500 hover:text-violet-700 text-xl font-bold">+</button>
                     `;
-                    // === CHANGE END ===
                     ingredientListEl.appendChild(li);
                 });
             }
@@ -342,15 +390,48 @@
                     });
                 }
             }
+
+            // === GEMINI CHANGE START ===
+            // Adds a message bubble to the chat UI
+            function addChatMessage(role, text) {
+                const wrapper = document.createElement('div');
+                wrapper.className = role === 'user' ? 'flex justify-end' : 'flex justify-start';
+                
+                const bubble = document.createElement('div');
+                bubble.className = role === 'user' 
+                    ? 'bg-violet-600 text-white p-3 rounded-t-2xl rounded-bl-2xl max-w-xs sm:max-w-sm' 
+                    : 'bg-gray-200 text-gray-800 p-3 rounded-t-2xl rounded-br-2xl max-w-xs sm:max-w-sm';
+                bubble.innerHTML = `<p>${text}</p>`;
+                
+                wrapper.appendChild(bubble);
+                chatMessageList.appendChild(wrapper);
+                chatMessageList.scrollTop = chatMessageList.scrollHeight; // Scroll to bottom
+            }
+
+            // Shows or hides the typing indicator
+            function setTypingIndicator(visible) {
+                let indicator = chatMessageList.querySelector('.typing-indicator');
+                if (visible) {
+                    if (!indicator) {
+                        indicator = document.createElement('div');
+                        indicator.className = 'typing-indicator';
+                        indicator.innerHTML = '<span></span><span></span><span></span>';
+                        chatMessageList.appendChild(indicator);
+                        chatMessageList.scrollTop = chatMessageList.scrollHeight;
+                    }
+                } else {
+                    if (indicator) {
+                        indicator.remove();
+                    }
+                }
+            }
+            // === GEMINI CHANGE END ===
             
-            // === CHANGE START ===
-            // Hides the ingredient pop-up
             function hideIngredientPopup() {
                 if (!ingredientPopup.classList.contains('hidden')) {
                     ingredientPopup.classList.add('hidden');
                 }
             }
-            // === CHANGE END ===
 
             // --- EVENT HANDLERS ---
             function handleRecipeSearch(e) { renderRecipes(e.target.value); }
@@ -362,14 +443,11 @@
                 selectedRecipe = allRecipes.find(r => r.id === recipeId);
                 renderRecipes(recipeSearchInput.value);
                 renderIngredients();
-                hideIngredientPopup(); // Hide popup when changing recipe
+                hideIngredientPopup(); 
             }
 
-            // === CHANGE START ===
-            // Handles all clicks within the ingredient list
             function handleIngredientClick(e) {
                 const target = e.target;
-                // Handle clicking the "+" to add to grocery
                 if (target.classList.contains('add-to-grocery-btn')) {
                     const text = target.dataset.ingredientText;
                     if (text && !groceryList.includes(text)) {
@@ -377,18 +455,13 @@
                         renderActiveList();
                     }
                 }
-                // Handle clicking the ingredient text to show pantry pop-up
                 else if (target.classList.contains('ingredient-text-clickable')) {
                     const text = target.dataset.ingredientText;
-                    currentIngredientForPopup = text; // Store which ingredient was clicked
-
-                    // Find the ingredient object to check if it's already in the pantry
+                    currentIngredientForPopup = text; 
                     const ingredientObj = selectedRecipe.ingredients.find(ing => ing.text === text);
                     if (ingredientObj && ingredientObj.inPantry) {
-                        return; // Do nothing if already in pantry
+                        return; 
                     }
-
-                    // Position and show the pop-up
                     const rect = target.getBoundingClientRect();
                     ingredientPopup.style.top = `${rect.bottom + window.scrollY}px`;
                     ingredientPopup.style.left = `${rect.left + window.scrollX}px`;
@@ -396,26 +469,19 @@
                 }
             }
             
-            // Adds the selected ingredient to the pantry state
             function handleAddToPantry() {
                 if (!currentIngredientForPopup || !selectedRecipe) return;
-
-                // Update the original recipe data
                 const ingredientObj = selectedRecipe.ingredients.find(ing => ing.text === currentIngredientForPopup);
                 if (ingredientObj) {
                     ingredientObj.inPantry = true;
                 }
-                
-                // Add to the main pantry list if not already there
                 if (!pantryList.includes(currentIngredientForPopup)) {
                     pantryList.push(currentIngredientForPopup);
                 }
-                
                 hideIngredientPopup();
-                renderIngredients(); // Re-render to show the "In pantry" tag
-                renderActiveList(); // Re-render the list in case user is viewing the pantry
+                renderIngredients(); 
+                renderActiveList(); 
             }
-            // === CHANGE END ===
 
             function handleRemoveFromGrocery(e) {
                 if (!e.target.classList.contains('remove-from-grocery-btn')) return;
@@ -436,8 +502,128 @@
             function closeCompanion() {
                 backdrop.classList.add('hidden');
                 companionContainer.classList.add('hidden');
-                hideIngredientPopup(); // Also hide popup when closing companion
+                hideIngredientPopup();
             }
+            
+            // === GEMINI CHANGE START ===
+            // This is the main function that interacts with the Gemini API
+            async function runConversation(prompt) {
+                // 1. Add user's message to history and display it
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                addChatMessage("user", prompt);
+                setTypingIndicator(true);
+
+                // 2. Define the tools the AI can use
+                const tools = [{
+                    functionDeclarations: [{
+                        name: "addItemsToGroceryList",
+                        description: "Adds one or more ingredients to the user's grocery list.",
+                        parameters: {
+                            type: "OBJECT",
+                            properties: {
+                                items: {
+                                    type: "ARRAY",
+                                    description: "The list of ingredients to add.",
+                                    items: { type: "STRING" }
+                                }
+                            },
+                            required: ["items"]
+                        }
+                    }]
+                }];
+                
+                const apiKey = ""; // IMPORTANT: Add your Gemini API key here
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    // 3. Send the request to Gemini
+                    const payload = {
+                        contents: chatHistory,
+                        tools: tools
+                    };
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API call failed with status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    setTypingIndicator(false);
+                    
+                    // 4. Process the response for function calls
+                    let functionCall = result.candidates?.[0]?.content?.parts?.[0]?.functionCall;
+                    if (functionCall) {
+                        if (functionCall.name === "addItemsToGroceryList") {
+                            const items = functionCall.args.items;
+                            // Execute the local function
+                            items.forEach(item => {
+                                if (item && !groceryList.includes(item)) {
+                                    groceryList.push(item);
+                                }
+                            });
+                            renderActiveList(); // Update the UI
+                            
+                            // 5. Send the function result back to the API
+                            chatHistory.push({
+                                role: "model",
+                                parts: [{ functionCall: functionCall }]
+                            });
+                            chatHistory.push({
+                                role: "function",
+                                parts: [{
+                                    functionResponse: {
+                                        name: "addItemsToGroceryList",
+                                        response: { "status": "success", "items_added": items }
+                                    }
+                                }]
+                            });
+
+                            // 6. Get the final text response from the model
+                            const finalPayload = { contents: chatHistory };
+                            const finalResponse = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(finalPayload)
+                            });
+                            const finalResult = await finalResponse.json();
+                            const finalMessage = finalResult.candidates?.[0]?.content?.parts?.[0]?.text;
+                            
+                            if (finalMessage) {
+                                addChatMessage("model", finalMessage);
+                                chatHistory.push({ role: "model", parts: [{ text: finalMessage }] });
+                            }
+                        }
+                    } else {
+                        // 7. If no function call, just display the text response
+                        const textResponse = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                        if (textResponse) {
+                            addChatMessage("model", textResponse);
+                            chatHistory.push({ role: "model", parts: [{ text: textResponse }] });
+                        } else {
+                             addChatMessage("model", "I'm sorry, I couldn't process that request.");
+                        }
+                    }
+                } catch (error) {
+                    setTypingIndicator(false);
+                    addChatMessage("model", `Error: ${error.message}. Make sure your API key is set.`);
+                    console.error("Error running conversation:", error);
+                }
+            }
+
+            // Handles chat submission
+            function handleChatSubmit() {
+                const prompt = chatInput.value.trim();
+                if (!prompt) return;
+                
+                chatInput.value = ""; // Clear input
+                runConversation(prompt);
+            }
+            // === GEMINI CHANGE END ===
+
 
             // --- INITIALIZATION ---
             function init() {
@@ -452,19 +638,25 @@
                 backdrop.addEventListener('click', closeCompanion);
                 recipeSearchInput.addEventListener('input', handleRecipeSearch);
                 recipeListEl.addEventListener('click', handleRecipeSelect);
-                
-                // === CHANGE START ===
-                ingredientListEl.addEventListener('click', handleIngredientClick); // Use new consolidated handler
-                addToPantryBtn.addEventListener('click', handleAddToPantry); // Listener for the pop-up button
+                ingredientListEl.addEventListener('click', handleIngredientClick);
+                addToPantryBtn.addEventListener('click', handleAddToPantry);
                 mainListUl.addEventListener('click', handleRemoveFromGrocery);
                 swapViewBtn.addEventListener('click', handleSwapView);
-                // Close pop-up if clicking anywhere else
+                
+                // === GEMINI CHANGE START ===
+                chatSendBtn.addEventListener('click', handleChatSubmit);
+                chatInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        handleChatSubmit();
+                    }
+                });
+                // === GEMINI CHANGE END ===
+
                 document.addEventListener('click', (e) => {
                     if (!ingredientPopup.contains(e.target) && !e.target.classList.contains('ingredient-text-clickable')) {
                         hideIngredientPopup();
                     }
                 });
-                // === CHANGE END ===
             }
 
             init();
@@ -472,4 +664,4 @@
     </script>
 </body>
 </html>
- 
+
